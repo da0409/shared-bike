@@ -1,0 +1,161 @@
+/*
+ * ============================================
+ * 开锁确认页样式
+ * ============================================
+ * 设计风格：渐变紫色背景 + 白色卡片
+ * ============================================
+ */
+
+/* ---------- 页面容器 ---------- */
+.container {
+  display: flex;
+  flex-direction: column;     /* 垂直排列子元素 */
+  align-items: center;        /* 水平居中 */
+  padding: 40rpx 30rpx;
+  min-height: 100vh;          /* 最小高度为屏幕高度 */
+  
+  /* 紫蓝色渐变背景 */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ---------- 单车信息卡片 ---------- */
+.bike-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;       /* 圆角 */
+  padding: 40rpx;
+  width: 100%;                /* 宽度占满容器 */
+  box-sizing: border-box;     /* padding不撑大盒子 */
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.1);  /* 卡片阴影 */
+  margin-bottom: 40rpx;
+}
+
+.bike-icon {
+  font-size: 80rpx;           /* 单车emoji图标大小 */
+  margin-right: 30rpx;
+}
+
+.bike-info {
+  flex: 1;                    /* 占满剩余空间 */
+  display: flex;
+  flex-direction: column;
+}
+
+.bike-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.bike-desc {
+  font-size: 26rpx;
+  color: #999;                /* 灰色说明文字 */
+}
+
+/* ---------- 状态显示区 ---------- */
+.status-box {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 60rpx 40rpx;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200rpx;         /* 最小高度，避免切换时布局跳动 */
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.1);
+  margin-bottom: 40rpx;
+}
+
+.status-text {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 成功文字 - 绿色 */
+.success-text {
+  color: #07c160;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+/* 失败文字 - 红色 */
+.fail-text {
+  color: #e64340;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+/* 
+ * ---------- 加载旋转动画 ----------
+ * 使用 CSS @keyframes 实现无限旋转效果
+ * 模拟开锁时的等待动画
+ */
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #e0e0e0;           /* 灰色圆圈 */
+  border-top-color: #667eea;             /* 顶部颜色不同（紫色），旋转时像进度环 */
+  border-radius: 50%;                    /* 圆形 */
+  animation: spin 0.8s linear infinite;  /* 应用旋转动画 */
+  margin-bottom: 20rpx;
+}
+
+/* 定义旋转动画 */
+@keyframes spin {
+  to { transform: rotate(360deg); }      /* 从0度旋转到360度 */
+}
+
+/* ---------- 按钮组 ---------- */
+.btn-group {
+  width: 100%;
+}
+
+.btn {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;         /* line-height = height 实现文字垂直居中 */
+  border-radius: 45rpx;       /* 完全圆角（胶囊按钮） */
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+  border: none;               /* 去掉微信button默认边框 */
+}
+
+/* 主按钮 - 橙色 */
+.btn-primary {
+  background: #ff6600;
+  color: #fff;
+}
+
+/* 取消按钮 - 浅灰色 */
+.btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+/* 按钮按下效果 */
+.btn-primary:active {
+  opacity: 0.8;
+}
+
+.btn-cancel:active {
+  background: #e8e8e8;
+}
+
+/* ---------- 底部计费信息 ---------- */
+.rate-info {
+  position: fixed;            /* 固定在底部 */
+  bottom: 40rpx;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.rate-text {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.8);  /* 半透明白色文字 */
+}

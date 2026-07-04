@@ -1,0 +1,240 @@
+/*
+ * ============================================
+ * 首页 - 地图找车页面样式（WXSS）
+ * ============================================
+ * WXSS 是微信小程序的样式语言，和 CSS 基本一样
+ * 但使用了 rpx（responsive pixel）单位：
+ *   750rpx = 屏幕宽度
+ *   所以在不同屏幕上都自动适配
+ * 
+ * 常用单位换算（以 iPhone 6 为设计稿）：
+ *   1rpx = 0.5px (iPhone 6 上)
+ *   一般设计稿宽度 750px，直接 1:1 用 rpx
+ * ============================================
+ */
+
+/* ---------- 页面容器 ---------- */
+.page-container {
+  width: 100vw;           /* 宽度占满视口 */
+  height: 100vh;          /* 高度占满视口 */
+  position: relative;     /* 相对定位，让子元素的absolute相对于此定位 */
+  overflow: hidden;       /* 超出部分隐藏 */
+}
+
+/* ---------- 地图组件 ---------- */
+.map {
+  width: 100%;            /* 地图填满整个容器 */
+  height: 100%;
+}
+
+/* 
+ * ---------- 顶部栏 ---------- 
+ * position: absolute 浮在地图上方
+ * top: 40rpx 距离顶部有一段距离（避开手机状态栏）
+ * z-index: 10 确保在地图上层
+ */
+.top-bar {
+  position: absolute;
+  top: 40rpx;
+  left: 0;
+  right: 0;
+  display: flex;          /* flex布局，让定位按钮、标题、占位在一行 */
+  align-items: center;    /* 垂直居中 */
+  padding: 0 30rpx;
+  z-index: 10;
+  pointer-events: none;   /* 让整个容器不拦截点击事件，点击穿透到地图 */
+}
+
+/* 定位按钮 - 白色圆形背景 */
+.location-btn {
+  width: 80rpx;
+  height: 80rpx;
+  background: #fff;       /* 白色背景 */
+  border-radius: 50%;     /* 圆形 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.15);  /* 阴影效果 */
+  pointer-events: auto;   /* 自己可以点击（覆盖父元素的pointer-events: none） */
+}
+
+.location-icon {
+  font-size: 36rpx;
+}
+
+/* 标题文字 - 在定位按钮和占位之间居中 */
+.title-text {
+  flex: 1;                /* flex:1 占满剩余空间 */
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 0 2rpx 8rpx rgba(255,255,255,0.8);  /* 文字阴影，白色背景上看得清 */
+}
+
+/* 占位元素 - 宽度和定位按钮一样，让标题视觉上居中 */
+.spacer {
+  width: 80rpx;
+}
+
+/*
+ * ---------- 底部弹窗 ----------
+ * 点击单车后从底部滑出的面板
+ * transform: translateY(120%) 默认隐藏在屏幕外
+ * .show 时 transform: translateY(0) 滑出
+ * transition: transform 0.3s ease 实现平滑动画
+ */
+.bottom-sheet {
+  position: absolute;
+  bottom: 120rpx;          /* 在底部导航栏上方 */
+  left: 30rpx;
+  right: 30rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 -4rpx 30rpx rgba(0,0,0,0.15);  /* 向上的阴影 */
+  transform: translateY(120%);      /* 默认隐藏（在屏幕下方） */
+  transition: transform 0.3s ease;  /* 动画过渡 */
+  z-index: 20;
+}
+
+/* 弹窗显示状态 */
+.bottom-sheet.show {
+  transform: translateY(0);         /* 显示（滑入屏幕） */
+}
+
+.sheet-content {
+  padding: 30rpx;
+}
+
+/* 单车信息行 */
+.bike-info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.bike-marker-icon {
+  font-size: 60rpx;
+  margin-right: 20rpx;
+}
+
+.bike-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bike-number {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+/* 空闲状态文字 - 绿色 */
+.bike-status {
+  font-size: 26rpx;
+  color: #07c160;        /* 微信绿 */
+}
+
+/* 扫码开锁按钮 - 橙色 */
+.unlock-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #ff6600;   /* 橙色主题色 */
+  color: #fff;
+  border-radius: 44rpx;  /* 圆角（高度的一半=完全圆角） */
+  font-size: 32rpx;
+  text-align: center;
+  border: none;           /* 去掉默认边框 */
+}
+
+/* 按钮按下效果 */
+.unlock-btn:active {
+  opacity: 0.8;
+}
+
+/*
+ * ---------- 底部导航栏 ----------
+ * 固定在页面底部
+ * 类似原生App的TabBar效果
+ */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;   /* 两个导航项均匀分布 */
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.08);  /* 顶部阴影 */
+  z-index: 30;
+  padding-bottom: env(safe-area-inset-bottom);  /* 适配iPhone X底部安全区 */
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;          /* 图标在上，文字在下 */
+  align-items: center;
+  padding: 10rpx 40rpx;
+}
+
+/* 当前选中的导航项 - 文字变橙色 */
+.nav-item.active .nav-text {
+  color: #ff6600;
+}
+
+.nav-icon {
+  font-size: 40rpx;
+  margin-bottom: 6rpx;
+}
+
+.nav-text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/*
+ * ---------- 行程中悬浮按钮 ----------
+ * 有行程时显示在右上角
+ * 使用 opacity 和 scale 组合动画实现出现/消失效果
+ */
+.trip-float-btn {
+  position: absolute;
+  top: 120rpx;
+  right: 30rpx;
+  background: #ff6600;
+  border-radius: 40rpx;
+  padding: 16rpx 24rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4rpx 20rpx rgba(255,102,0,0.4);
+  z-index: 15;
+
+  /* 默认隐藏（透明 + 缩小） */
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  pointer-events: none;            /* 隐藏时不可点击 */
+}
+
+/* 显示状态（不透明 + 正常大小 + 可点击） */
+.trip-float-btn.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.trip-float-icon {
+  font-size: 30rpx;
+  margin-right: 8rpx;
+}
+
+.trip-float-text {
+  font-size: 26rpx;
+  color: #fff;
+  font-weight: bold;
+}

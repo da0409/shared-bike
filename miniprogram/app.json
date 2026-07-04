@@ -1,11 +1,15 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/confirm-unlock/confirm-unlock",
+    "pages/trip/trip",
+    "pages/profile/profile",
+    "pages/ride-records/ride-records"
   ],
   "window": {
     "navigationBarTitleText": "共享单车",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#ff6600",
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

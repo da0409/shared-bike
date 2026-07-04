@@ -1,0 +1,91 @@
+<!-- 
+  ============================================
+  开锁确认页 WXML
+  ============================================
+  页面结构：
+  1. 单车信息卡片（编号 + 图标）
+  2. 状态显示区（等待/开锁中/成功/失败）
+  3. 操作按钮（确认开锁/取消/开始骑行/重试）
+  4. 底部计费标准提示
+  ============================================
+-->
+
+<view class="container">
+  
+  <!-- 
+    单车信息卡片
+    显示单车图标、编号和说明文字
+  -->
+  <view class="bike-card">
+    <view class="bike-icon">🚲</view>
+    <view class="bike-info">
+      <!-- {{bikeId}} 从JS的data中读取 -->
+      <text class="bike-title">单车 {{bikeId}}</text>
+      <text class="bike-desc">点击确认开锁即可使用</text>
+    </view>
+  </view>
+
+  <!-- 
+    状态显示区
+    wx:if / wx:elif / wx:else 是微信小程序的条件渲染
+    根据 unlockStatus 的值显示不同的内容：
+    
+    unlockStatus 取值：
+    - 'idle': 等待开锁（显示"是否开锁？"）
+    - 'unlocking': 开锁中（显示旋转动画 + "开锁中..."）
+    - 'success': 开锁成功（显示 ✅ 开锁成功，开始计时！）
+    - 'fail': 开锁失败（显示 ❌ 开锁失败，请重试）
+  -->
+  <view class="status-box {{unlockStatus}}">
+    
+    <!-- 等待操作状态 -->
+    <block wx:if="{{unlockStatus === 'idle'}}">
+      <text class="status-text">是否开锁？</text>
+    </block>
+    
+    <!-- 开锁中状态（含旋转动画） -->
+    <block wx:elif="{{unlockStatus === 'unlocking'}}">
+      <!-- 旋转的加载圆圈 -->
+      <view class="loading-spinner"></view>
+      <text class="status-text">开锁中...</text>
+    </block>
+    
+    <!-- 开锁成功状态 -->
+    <block wx:elif="{{unlockStatus === 'success'}}">
+      <text class="status-text success-text">✅ 开锁成功，开始计时！</text>
+    </block>
+    
+    <!-- 开锁失败状态 -->
+    <block wx:elif="{{unlockStatus === 'fail'}}">
+      <text class="status-text fail-text">❌ 开锁失败，请重试</text>
+    </block>
+  </view>
+
+  <!-- 
+    操作按钮组
+    同样根据 unlockStatus 显示不同的按钮
+    
+    wx:if 和 wx:elif 的区别：
+    - wx:if：条件为 true 时渲染（条件为 false 时完全销毁）
+    - hidden：只是隐藏（依然存在于DOM中）
+    这里用 wx:if 是因为状态切换时按钮需要完全改变
+  -->
+  <view class="btn-group">
+    
+    <!-- idle状态：显示"确认开锁" + "取消" -->
+    <button wx:if="{{unlockStatus === 'idle'}}" class="btn btn-primary" bindtap="confirmUnlock">确认开锁</button>
+    <button wx:if="{{unlockStatus === 'idle'}}" class="btn btn-cancel" bindtap="goBack">取消</button>
+    
+    <!-- success状态：显示"开始骑行" -->
+    <button wx:elif="{{unlockStatus === 'success'}}" class="btn btn-primary" bindtap="goTrip">开始骑行</button>
+    
+    <!-- fail状态：显示"重试" -->
+    <button wx:elif="{{unlockStatus === 'fail'}}" class="btn btn-primary" bindtap="retryUnlock">重试</button>
+    
+  </view>
+
+  <!-- 底部计费标准提示 -->
+  <view class="rate-info">
+    <text class="rate-text">计费标准：0.1 元/分钟</text>
+  </view>
+</view>

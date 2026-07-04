@@ -1,0 +1,74 @@
+<!-- 
+  ============================================
+  个人中心页 WXML
+  ============================================
+  页面结构：
+  1. 头部：橙色渐变背景 + 头像 + 昵称 + 手机号
+  2. 菜单列表：骑行记录入口 + 获取用户信息入口
+  3. 底部：退出登录按钮
+  ============================================
+-->
+
+<view class="container">
+
+  <!-- 
+    头部区域
+    橙色渐变背景，显示用户信息
+  -->
+  <view class="profile-header">
+    <!-- 头像 -->
+    <view class="avatar-box">
+      <!-- 
+        image 组件的 src 支持：
+        - 本地图片路径
+        - 网络图片URL
+        - base64图片
+        
+        || 运算符：如果 avatarUrl 为空，使用默认头像URL
+        默认头像用的是微信官方提供的默认头像
+      -->
+      <image class="avatar" src="{{avatarUrl || 'https://res.wx.qq.com/op_res/BrSXFeCCUtMNChiHVLvd2jSjkRZ78QoHNmS3BMbhDSgr2LabQq9kkJmG4nQYJ1nP'}}" mode="aspectFill"></image>
+    </view>
+    <!-- 昵称 -->
+    <text class="nickname">{{nickName || '未登录'}}</text>
+    <!-- 手机号/提示文字 -->
+    <text class="phone">{{phone || '点击下方按钮获取用户信息'}}</text>
+  </view>
+
+  <!-- 
+    菜单列表
+    每个菜单项都是一个可点击的行，带箭头指示
+  -->
+  <view class="menu-list">
+    
+    <!-- 骑行记录入口 -->
+    <view class="menu-item" bindtap="goToRecords">
+      <text class="menu-icon">📋</text>
+      <text class="menu-text">骑行记录</text>
+      <text class="menu-arrow">›</text>    <!-- 右箭头符号 -->
+    </view>
+    
+    <!-- 获取/重新获取用户信息 -->
+    <view class="menu-item" bindtap="getUserInfo">
+      <text class="menu-icon">👤</text>
+      <!-- 条件渲染：已登录显示"重新获取"，未登录显示"获取用户信息" -->
+      <text class="menu-text">{{isLoggedIn ? '重新获取用户信息' : '获取用户信息'}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    
+  </view>
+
+  <!-- 
+    底部区域
+    包含退出登录按钮和版本号
+  -->
+  <view class="footer">
+    <!-- 
+      wx:if 条件渲染：只有已登录时才显示退出按钮
+      移动端通常不需要退出功能，但作为学习项目保留
+    -->
+    <button class="logout-btn" wx:if="{{isLoggedIn}}" bindtap="logout">退出登录</button>
+    <!-- 版本号 -->
+    <text class="version">v1.0.0</text>
+  </view>
+</view>

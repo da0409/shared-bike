@@ -1,0 +1,58 @@
+<!-- 
+  ============================================
+  行程中页面 WXML
+  ============================================
+  页面结构：
+  1. 头部：单车图标 + "骑行中"标题 + 单车编号
+  2. 计时器：大号数字显示已骑行时间
+  3. 信息卡片：当前费用 + 预估距离
+  4. 底部：结束行程按钮（固定在底部）
+  ============================================
+-->
+
+<view class="container">
+
+  <!-- 头部区域 -->
+  <view class="trip-header">
+    <!-- 单车图标 -->
+    <view class="bike-emoji">🚲</view>
+    <!-- 标题 -->
+    <text class="trip-title">骑行中</text>
+    <!-- 单车编号（从JS数据中获取） -->
+    <text class="bike-label">单车 {{bikeId}}</text>
+  </view>
+
+  <!-- 
+    计时器区域
+    大号数字显示 mm:ss 格式的骑行时间
+    使用等宽字体（Courier New）让数字跳动时视觉上稳定
+  -->
+  <view class="timer-box">
+    <text class="timer">{{formattedTime}}</text>
+    <text class="timer-label">已骑行</text>
+  </view>
+
+  <!-- 
+    信息卡片（两列布局）
+    左侧：当前费用
+    右侧：预估距离
+  -->
+  <view class="info-grid">
+    <view class="info-item">
+      <text class="info-value">{{fee}}</text>
+      <text class="info-label">当前费用（元）</text>
+    </view>
+    <view class="info-item">
+      <text class="info-value">{{distance}}</text>
+      <text class="info-label">预估距离（km）</text>
+    </view>
+  </view>
+
+  <!-- 
+    底部按钮组
+    使用 position: fixed 固定在底部
+  -->
+  <view class="btn-group">
+    <button class="btn btn-end" bindtap="endTrip">结束行程</button>
+  </view>
+</view>

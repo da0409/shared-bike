@@ -1,1 +1,109 @@
-<text>我的共享单车</text>
+<!-- 
+  ============================================
+  首页 - 地图找车页面 WXML
+  ============================================
+  微信小程序的 WXML 类似于 HTML
+  但使用微信自己的组件（view、map、text、image等）
+  和数据绑定语法（{{变量名}}）
+  ============================================
+-->
+
+<!-- 
+  page-container：整个页面的容器
+  使用 position: relative 让内部绝对定位元素相对于它定位
+-->
+<view class="page-container">
+
+  <!-- 
+    map - 微信小程序的地图组件
+    ====================================
+    属性说明：
+    - latitude/longitude：地图中心点坐标
+    - scale：缩放级别（3~20）
+    - markers：地图上的标记数组（单车位置）
+    - bindmarkertap：点击标记时触发的事件
+    - bindtap：点击地图空白区域时触发的事件
+    - show-location：显示当前位置蓝色小圆点
+    ====================================
+  -->
+  <map 
+    id="myMap"
+    class="map"
+    latitude="{{centerLat}}"          <!-- 地图中心纬度（从JS的data中读取） -->
+    longitude="{{centerLng}}"         <!-- 地图中心经度 -->
+    scale="{{scale}}"                 <!-- 缩放级别 -->
+    markers="{{markers}}"             <!-- 单车标记数组 -->
+    bindmarkertap="onMarkerTap"       <!-- 点击单车标记 -> 调用JS里的 onMarkerTap -->
+    bindtap="onMapTap"                <!-- 点击地图空白 -> 调用JS里的 onMapTap -->
+    show-location                     <!-- 显示用户当前位置（蓝点） -->
+  ></map>
+
+  <!-- 
+    顶部操作区
+    使用 position: absolute 浮在地图上方
+    z-index: 10 确保在地图之上
+  -->
+  <view class="top-bar">
+    <!-- 定位按钮：点击后获取用户位置 -->
+    <view class="location-btn" bindtap="onMyLocationTap">
+      <text class="location-icon">📍</text>
+    </view>
+    <!-- 页面标题 -->
+    <view class="title-text">共享单车</view>
+    <!-- 占位元素（让标题居中） -->
+    <view class="spacer"></view>
+  </view>
+
+  <!-- 
+    底部弹窗 - 点击单车后弹出
+    使用 CSS transform 控制显示/隐藏
+    class 中的 {{showBottomSheet ? 'show' : ''}} 是条件样式：
+    - 当 showBottomSheet 为 true 时，添加 'show' class（弹窗滑出）
+    - 当 showBottomSheet 为 false 时，不加 'show'（弹窗隐藏）
+  -->
+  <view class="bottom-sheet {{showBottomSheet ? 'show' : ''}}">
+    <view class="sheet-content">
+      
+      <!-- 单车信息行 -->
+      <view class="bike-info-row">
+        <text class="bike-marker-icon">🚲</text>
+        <view class="bike-detail">
+          <!-- selectedBike 是当前选中的单车对象，bikeId 是单车编号 -->
+          <text class="bike-number">单车 {{selectedBike.bikeId}}</text>
+          <text class="bike-status">空闲中 · 点击解锁</text>
+        </view>
+      </view>
+      
+      <!-- 扫码开锁按钮 -->
+      <button class="unlock-btn" bindtap="goToUnlock">扫码开锁</button>
+    </view>
+  </view>
+
+  <!-- 
+    底部导航栏
+    固定在页面底部，用于切换"找车"和"我的"
+  -->
+  <view class="bottom-nav">
+    <!-- 找车（当前页，active状态） -->
+    <view class="nav-item active">
+      <text class="nav-icon">🗺️</text>
+      <text class="nav-text">找车</text>
+    </view>
+    <!-- 我的（跳转到个人中心） -->
+    <view class="nav-item" bindtap="goToProfile">
+      <text class="nav-icon">👤</text>
+      <text class="nav-text">我的</text>
+    </view>
+  </view>
+
+  <!-- 
+    行程中悬浮按钮
+    当有进行中的行程时显示在右上角
+    使用条件样式 show 控制显示/隐藏
+  -->
+  <view class="trip-float-btn {{isOnTrip ? 'show' : ''}}" bindtap="goToCurrentTrip">
+    <text class="trip-float-icon">🚲</text>
+    <text class="trip-float-text">行程中</text>
+  </view>
+
+</view>

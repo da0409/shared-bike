@@ -1,0 +1,79 @@
+<!-- 
+  ============================================
+  骑行记录页 WXML
+  ============================================
+  页面结构：
+  1. 统计卡片：总次数、总里程、总费用
+  2. 记录列表：每条骑行记录的详情
+  3. 空状态：没有记录时的提示
+  ============================================
+-->
+
+<view class="container">
+
+  <!-- 
+    wx:if / wx:else 条件渲染
+    当 records.length > 0 时有记录，显示统计 + 列表
+    否则显示空状态提示
+  -->
+  <block wx:if="{{records.length > 0}}">
+    
+    <!-- 
+      统计卡片
+      橙色渐变背景，显示三列统计数据
+    -->
+    <view class="summary-box">
+      <text class="summary-title">骑行统计</text>
+      <view class="summary-grid">
+        <view class="summary-item">
+          <text class="summary-value">{{totalCount}}</text>
+          <text class="summary-label">总次数</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">{{totalDistance}}</text>
+          <text class="summary-label">总里程(km)</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">{{totalFee}}</text>
+          <text class="summary-label">总费用(元)</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 
+      骑行记录列表
+      wx:for 循环渲染数组
+      wx:for-item="item" 指定当前元素的变量名（默认就是item）
+      wx:key 指定唯一标识，提高渲染性能
+    -->
+    <view class="record-list">
+      <view class="record-item" wx:for="{{records}}" wx:key="id">
+        <!-- 第一行：单车编号 + 费用 -->
+        <view class="record-header">
+          <text class="record-bike">🚲 单车 {{item.bikeId}}</text>
+          <text class="record-fee">{{item.fee}} 元</text>
+        </view>
+        <!-- 第二行：日期 + 时长 + 距离 -->
+        <view class="record-body">
+          <text class="record-date">{{item.date}}</text>
+          <text class="record-duration">骑行 {{item.durationText}}</text>
+          <text class="record-distance">{{item.distance}} km</text>
+        </view>
+      </view>
+    </view>
+
+  </block>
+
+  <!-- 
+    空状态提示
+    当没有骑行记录时显示
+  -->
+  <block wx:else>
+    <view class="empty-state">
+      <!-- 大号单车表情 -->
+      <text class="empty-icon">🚲</text>
+      <text class="empty-text">暂无骑行记录</text>
+      <text class="empty-hint">去首页找一辆单车开始骑行吧</text>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,140 @@
+/*
+ * ============================================
+ * 骑行记录页样式
+ * ============================================
+ * 设计风格：
+ * - 顶部统计卡片：橙色渐变
+ * - 记录列表：白色卡片
+ * - 空状态：居中提示
+ * ============================================
+ */
+
+/* ---------- 页面容器 ---------- */
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;        /* 浅灰背景 */
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+}
+
+/* ---------- 统计卡片（橙色渐变） ---------- */
+.summary-box {
+  background: linear-gradient(135deg, #ff6600, #ff8c00);  /* 同主题色 */
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255,102,0,0.3);  /* 橙色阴影 */
+}
+
+.summary-title {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+/* 三列统计布局 */
+.summary-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-item {
+  flex: 1;                    /* 三列等宽 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 6rpx;
+}
+
+.summary-label {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ---------- 记录列表 ---------- */
+.record-list {
+  width: 100%;
+}
+
+/* 单条记录 - 白色卡片 */
+.record-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+/* 第一行：单车编号（左） + 费用（右） */
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.record-bike {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.record-fee {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ff6600;             /* 费用用橙色突出 */
+}
+
+/* 第二行：日期 + 时长 + 距离 水平分布 */
+.record-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.record-duration {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.record-distance {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* ---------- 空状态 ---------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;        /* 垂直居中 - 距离顶部一段距离 */
+}
+
+.empty-icon {
+  font-size: 120rpx;          /* 大号图标 */
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #ccc;                /* 更浅的颜色表示提示 */
+}
